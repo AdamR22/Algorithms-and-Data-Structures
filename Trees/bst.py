@@ -147,7 +147,7 @@ class BinarySearchTree:
             set to predecessor by default
             accepted values: predecessor, successor
         """
-        self.remove_node(data, self.root_node)
+        self.remove_node(data, self.root_node, mode)
 
     def remove_node(self, data: int, node: Node, mode:str="predecessor") -> None:
         """
