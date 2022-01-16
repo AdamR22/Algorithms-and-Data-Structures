@@ -22,7 +22,7 @@ public class DoublyLinkedList {
         }
     }
 
-    public bool isEmpty() {
+    public boolean isEmpty() {
         return this.size == 0;
     }
 
@@ -36,32 +36,50 @@ public class DoublyLinkedList {
         Node newNode = new Node(data);
 
         if (this.head == null) {
-            //List is empty hence new node is both head and tail
+            // List is empty hence new node is both head and tail
             this.head = newNode;
             this.tail = newNode;
+        } else {
+            this.head.prev = newNode;
+            newNode.next = this.head;
+            this.head = newNode;
         }
-
-        this.head.prev = newNode;
-        newNode.next = this.head;
-        this.head = newNode;
 
         size++;
     }
 
     public void insertLast(int data) {
-        //Adds node to tail of linked list
+        // Adds node to tail of linked list
         Node newNode = new Node(data);
         if (this.tail == null) {
-            //List is empty hence new node is both head and tail;
+            // List is empty hence new node is both head and tail;
             this.head = newNode;
+            this.tail = newNode;
+        } else {
+            this.tail.next = newNode;
+            newNode.prev = this.tail;
             this.tail = newNode;
         }
 
-        this.tail.next = newNode;
-        newNode.prev = this.tail;
-        this.tail = newNode;
-
         size++;
+    }
+
+    public void insertItem(int dataInWantedNodeLocation, int newData) {
+        /*
+        Since I have no indices, dataInWantedNodeLocation helps us
+        find the location where we want to insert data to. 
+        */
+        Node newNode = new Node(newData);
+        Node currentNode = this.head;
+
+        while (currentNode.data != dataInWantedNodeLocation) {
+            currentNode = currentNode.next;
+        }
+
+        newNode.next = currentNode.next;
+        newNode.prev = currentNode;
+        currentNode.next = newNode;
+
     }
 
     public void traverse() {
@@ -70,6 +88,8 @@ public class DoublyLinkedList {
 
         while (currentNode != null) {
             System.out.println(String.format("Node number: %s, data: %s", nodeNumber, currentNode.data));
+            currentNode = currentNode.next;
+            nodeNumber++;
         }
     }
 
