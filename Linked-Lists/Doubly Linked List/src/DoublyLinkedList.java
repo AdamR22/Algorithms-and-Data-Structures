@@ -80,6 +80,8 @@ public class DoublyLinkedList {
         newNode.prev = currentNode;
         currentNode.next = newNode;
 
+        size++;
+
     }
 
     public void traverse() {
@@ -99,6 +101,8 @@ public class DoublyLinkedList {
         this.head = temp.next;
         this.head.prev = null;
 
+        size--;
+
         return temp;
     }
 
@@ -108,6 +112,8 @@ public class DoublyLinkedList {
         this.tail = temp.prev;
         temp.prev = null;
         this.tail.next = null;
+
+        size--;
 
         return temp;
     }
@@ -122,6 +128,8 @@ public class DoublyLinkedList {
         currentNode.prev.next = currentNode.next;
         currentNode.next = null;
         currentNode.prev = null;
+
+        size--;
 
         return currentNode;
     }

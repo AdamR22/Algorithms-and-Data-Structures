@@ -76,6 +76,8 @@ public class CircularLinkedList {
         newNode.next = currentNode.next;
         currentNode.next = newNode;
 
+        size++;
+
     }
 
     public void traverse() {
@@ -98,6 +100,8 @@ public class CircularLinkedList {
         this.head = this.head.next;
         this.tail.next = this.head; // Make tail next pointer point to new head
 
+        size--;
+
         return temp;
     }
 
@@ -113,6 +117,8 @@ public class CircularLinkedList {
         currentNode.next = this.head;
         this.tail = currentNode;
 
+        size--;
+
         return temp;
     }
 
@@ -126,6 +132,8 @@ public class CircularLinkedList {
         Node temp = currentNode.next;
 
         currentNode.next = currentNode.next.next;
+
+        size--;
 
         return temp;
     }

@@ -12,5 +12,6 @@ public class App {
         // circularLinkedList.deleteHead();
         // circularLinkedList.deleteTail();
         circularLinkedList.traverse();
+        System.out.println("Circular Linked List size " + circularLinkedList.getSize());
     }
 }
