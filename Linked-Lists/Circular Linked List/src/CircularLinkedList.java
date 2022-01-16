@@ -1,10 +1,11 @@
-public class DoublyLinkedList {
+package src;
 
+public class CircularLinkedList {
     private Node head;
     private Node tail;
     private int size;
 
-    public DoublyLinkedList() {
+    public CircularLinkedList() {
         this.head = null;
         this.tail = null;
         this.size = 0;
@@ -13,12 +14,10 @@ public class DoublyLinkedList {
     private class Node {
         private int data;
         private Node next;
-        private Node prev;
 
         private Node(int data) {
             this.data = data;
             this.next = null;
-            this.prev = null;
         }
     }
 
@@ -31,17 +30,15 @@ public class DoublyLinkedList {
     }
 
     public void insertFirst(int data) {
-
-        // Adds node to head of linked list
         Node newNode = new Node(data);
 
         if (this.head == null) {
-            // List is empty hence new node is both head and tail
             this.head = newNode;
             this.tail = newNode;
+            this.head.next = this.head;
         } else {
-            this.head.prev = newNode;
             newNode.next = this.head;
+            this.head.next = newNode;
             this.head = newNode;
         }
 
@@ -49,15 +46,15 @@ public class DoublyLinkedList {
     }
 
     public void insertLast(int data) {
-        // Adds node to tail of linked list
         Node newNode = new Node(data);
+
         if (this.tail == null) {
-            // List is empty hence new node is both head and tail;
             this.head = newNode;
             this.tail = newNode;
+            this.head.next = this.head;
         } else {
             this.tail.next = newNode;
-            newNode.prev = this.tail;
+            newNode.next = this.head;
             this.tail = newNode;
         }
 
@@ -77,7 +74,6 @@ public class DoublyLinkedList {
         }
 
         newNode.next = currentNode.next;
-        newNode.prev = currentNode;
         currentNode.next = newNode;
 
     }
@@ -86,28 +82,36 @@ public class DoublyLinkedList {
         Node currentNode = this.head;
         int nodeNumber = 0;
 
-        while (currentNode != null) {
+        while (currentNode.next != this.head) {
             System.out.println(String.format("Node number: %s, data: %s", nodeNumber, currentNode.data));
             currentNode = currentNode.next;
             nodeNumber++;
         }
+
+        //Prints out data in last node to prevent circular motion
+        System.out.println(String.format("Node number: %s, data: %s", nodeNumber, currentNode.data));
     }
 
     public Node deleteHead() {
         Node temp = this.head;
 
-        this.head = temp.next;
-        this.head.prev = null;
+        this.head = this.head.next;
+        this.tail.next = this.head; // Make tail next pointer point to new head
 
         return temp;
     }
 
     public Node deleteTail() {
-        Node temp = this.tail;
+        Node currentNode = this.head;
+        Node temp = null;
 
-        this.tail = temp.prev;
-        temp.prev = null;
-        this.tail.next = null;
+        while (currentNode.next != this.tail) {
+            currentNode = currentNode.next;
+        }
+
+        temp = currentNode.next;
+        currentNode.next = this.head;
+        this.tail = currentNode;
 
         return temp;
     }
@@ -115,14 +119,14 @@ public class DoublyLinkedList {
     public Node deleteNode(int data) {
         Node currentNode = this.head;
 
-        while (currentNode.data != data) {
+        while (currentNode.next.data != data) {
             currentNode = currentNode.next;
         }
 
-        currentNode.prev.next = currentNode.next;
-        currentNode.next = null;
-        currentNode.prev = null;
+        Node temp = currentNode.next;
 
-        return currentNode;
+        currentNode.next = currentNode.next.next;
+
+        return temp;
     }
 }
