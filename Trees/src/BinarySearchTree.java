@@ -62,9 +62,9 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
 
     private Node<T> findLargestNodeInLeftSubtree(Node<T> node) {
-        // Finds node with largest value in leftSubtree
-        if (node.rightNode != null) {
-            findLargestNodeInLeftSubtree(node.rightNode);
+        // Finds node with largest value in leftSubtree	
+        while (node.rightNode != null) {
+            node = node.rightNode;
         }
 
         return node;
@@ -83,21 +83,19 @@ public class BinarySearchTree<T extends Comparable<T>> {
             node.rightNode = removeNode(data, node.rightNode);
         } else {
             if (node.leftNode == null && node.rightNode == null) {
-                // Node to be removed is leaf node
                 node = null;
-                return null;
-            } else if (node.leftNode != null) {
-                Node<T> temp = node.leftNode;
-                node.leftNode = null;
-                return temp;
-            } else if (node.rightNode != null) {
+            } else if (node.leftNode == null) {
                 Node<T> temp = node.rightNode;
                 node.rightNode = null;
                 return temp;
+            } else if (node.rightNode == null) {
+                Node<T> temp = node.leftNode;
+                node.leftNode = null;
+                return temp;
             } else {
-                Node<T> temp = findLargestNodeInLeftSubtree(node.leftNode);
-                node.data = temp.data;
-                node.leftNode = removeNode(temp.data, node.leftNode);
+                Node<T> successor = successor(node.leftNode);
+                node.mData = successor.mData;
+                node.leftNode = delete(node.leftNode, successor.mData);
             }
         }
 
