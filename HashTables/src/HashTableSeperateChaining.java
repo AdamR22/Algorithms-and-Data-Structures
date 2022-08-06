@@ -94,6 +94,7 @@ public class HashTableSeperateChaining<K, V> {
 
     private int normalizeHashKey(int key) {
         return (key & 0x7FFFFFFF) % capacity;
+        // The above is simillar to: return key < 0 ? (key * -1) % capacity : key % capacity;
     }
 
     private Entry<K, V> getEntry(K key) {
